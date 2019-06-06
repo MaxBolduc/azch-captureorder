@@ -6,7 +6,6 @@ spec:
   selector:
       matchLabels:
         app: captureorder
-  replicas: 2
   template:
       metadata:
         labels:
@@ -14,7 +13,7 @@ spec:
       spec:
         containers:
         - name: captureorder
-          image: uniqueacrname.azurecr.io/captureorder # replace with your own repository
+          image: dracotechacr.azurecr.io/captureorder # replace with your own repository
           imagePullPolicy: Always
           readinessProbe:
             httpGet:
@@ -34,6 +33,8 @@ spec:
           env:
           - name: TEAMNAME
             value: 'placeholder' # will be patched at deployment time by value of 'teamName' in the variable group
+          - name: CHALLENGEAPPINSIGHTS_KEY # uncomment and set value only if you've been provided a key
+            value: "817a402b-9848-4474-94cf-21ddd8ddd704" # uncomment and set value only if you've been provided a key
           - name: MONGOHOST
             valueFrom:
               secretKeyRef:
@@ -50,4 +51,4 @@ spec:
                 name: mongodb
                 key: mongoPassword
           ports:
-          - containerPort: 80
+          - containerPort: 8080
